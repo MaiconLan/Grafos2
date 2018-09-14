@@ -2,24 +2,38 @@ import java.util.Objects;
 
 public class Aresta {
 
+    private String nome;
     private Vertice origem;
     private Vertice destino;
     private int valor;
 
     public Aresta() {
-        this.valor = 999999999;
     }
 
     public Aresta(Vertice origem, Vertice destino) {
         this.origem = origem;
         this.destino = destino;
-        this.valor = 999999999;
     }
 
     public Aresta(Vertice origem, Vertice destino, int valor) {
         this.origem = origem;
         this.destino = destino;
         this.valor = valor;
+    }
+
+    public Aresta(Vertice origem, Vertice destino, int valor, String nome) {
+        this.origem = origem;
+        this.destino = destino;
+        this.valor = valor;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Vertice getOrigem() {

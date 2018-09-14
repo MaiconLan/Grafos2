@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 public class Main {
@@ -30,12 +32,28 @@ public class Main {
                     matrizAdjacencia(grafo);
                     break;
 
+                case 5:
+                    listaAdjacencia(grafo);
+                    break;
+
+                case 6:
+                    matrizIncidencia(grafo);
+                    break;
+
                 default:
                     break;
 
             }
         }
 
+    }
+
+    private static String getConfiguracoes(Grafo grafo){
+        String retorno = "Grafo: ";
+        retorno += grafo.isOrientado() ? "Orientado" : "Não-Orientado";
+        retorno += ", ";
+        retorno += grafo.isValorado() ? "Valorador" : "Não-Valorado";
+        return retorno + "\t";
     }
 
     private static void configuracoesIniciais(Grafo grafo) {
@@ -48,7 +66,7 @@ public class Main {
         }
 
         grafo.setValorado(valorado.equals("s"));
-        grafo.setValorado(orientado.equals("s"));
+        grafo.setOrientado(orientado.equals("s"));
     }
 
     public static String input(String mensagem){
@@ -56,15 +74,20 @@ public class Main {
     }
 
     public static void output(String mensagem, String titulo) {
-        JOptionPane.showMessageDialog(null, new JTextArea(mensagem), titulo, 1);
+        JTextArea textArea = new JTextArea(mensagem);
+        JOptionPane.showMessageDialog(null, textArea, titulo, 1);
     }
 
     public static String getMenu(){
         return "Selecione uma opção" +
-                "\n1 - Definir os Vértice" +
+                "\n1 - Definir os Vértices" +
                 "\n2 - Adicionar Arestas" +
+                "\n---------------------------------" +
                 "\n3 - Lista de Arestas" +
                 "\n4 - Matriz de Adjacência" +
+                "\n5 - Lista de Adjacência" +
+                "\n6 - Matriz de Incidência" +
+                "\n---------------------------------" +
                 "\n0 - Sair";
     }
 
@@ -96,13 +119,18 @@ public class Main {
             destino = obterVertice(grafo, Integer.parseInt(input(verticeDestino + verticesCadastrados)));
         }
 
-        int valorVertice = 0;
+        int valorAresta = 0;
 
         if(grafo.isValorado())
-            valorVertice = Integer.parseInt(input("Insira valor para a Aresta.").toUpperCase().replace(" ", ""));
+            valorAresta = Integer.parseInt(input("Insira valor para a Aresta.").toUpperCase().replace(" ", ""));
 
-        Aresta aresta = new Aresta(origem, destino, valorVertice);
+        Aresta aresta = new Aresta(origem, destino, valorAresta, "E" + (grafo.getArestas().size()+1));
         grafo.getArestas().add(aresta);
+
+        if(!grafo.isOrientado()) {
+            Aresta arestaNaoOrientada = new Aresta(destino, origem, valorAresta, "E" + (grafo.getArestas().size()+1));
+            grafo.getArestas().add(arestaNaoOrientada);
+        }
     }
 
     public static Vertice obterVertice(Grafo grafo, Integer idVertice){
@@ -117,7 +145,7 @@ public class Main {
     private static void matrizAdjacencia(Grafo grafo) {
         List<Vertice> vertices = grafo.getVertices();
         List<Aresta> arestas = grafo.getArestas();
-        String resultado = "\t";
+        String resultado = getConfiguracoes(grafo) + "\n\n\t";
 
         for (Vertice vertice : vertices)
             resultado += vertice.getNome() + "\t";
@@ -131,24 +159,21 @@ public class Main {
                 Vertice origem = vertices.get(i);
                 Vertice destino = vertices.get(j);
 
-                boolean possuiArestaOrientada = false;
-                boolean possuiArestaNaoOrientada = false;
-                int valorComAresta = 1;
-                int valorSemAresta = 0;
+                boolean possuiAresta = false;
+
+                int valorAresta = grafo.isValorado() ? 999999999 : 0 ;
 
                 Aresta orientada = new Aresta(origem, destino);
-                possuiArestaOrientada = arestas.contains(orientada);
+                possuiAresta = arestas.contains(orientada);
+
+                if(possuiAresta)
+                    valorAresta = grafo.isValorado() ? arestas.get(arestas.indexOf(orientada)).getValor() : 1;
 
                 if(!grafo.isOrientado()){
-                    Aresta naoOrientada = new Aresta(origem, destino);
-                    possuiArestaNaoOrientada = arestas.contains(naoOrientada);
+                    Aresta naoOrientada = new Aresta(destino, origem);
                 }
 
-                if(grafo.isValorado()) {
-                    valorSemAresta = 999999999;
-                }
-
-                resultado += possuiArestaOrientada || possuiArestaNaoOrientada ? 1 + "\t" : valorSemAresta + "\t";
+                resultado +=  valorAresta + "\t";
 
                 if(j == vertices.size() - 1)
                     resultado += "\n";
@@ -159,21 +184,70 @@ public class Main {
     }
 
     public static void listaAdjacencia(Grafo grafo) {
-        String msg = "Lista de Adjacência\n\n";
-        for (Vertice vertice : grafo.getVertices()) {
-            msg += vertice.getNome() + " ";
+        String listaAdjacencia = getConfiguracoes(grafo) + "\n\n";
+        List<Vertice> vertices = grafo.getVertices();
+        Set<Aresta> arestas = new HashSet<>();
+
+        if(grafo.isOrientado())
+            arestas = new HashSet<>(grafo.getArestas());
+        else
+            arestas = getArestasSemVerticeOrigemDestinoAoContratio(grafo);
+
+        for (Vertice vertice : vertices) {
+            listaAdjacencia += vertice;
+            for (Aresta aresta : arestas) {
+                if(aresta.getOrigem().equals(vertice)) {
+                    listaAdjacencia += " -> " + aresta.getDestino();
+                }
+            }
+            listaAdjacencia += "-|\n";
         }
-        output(msg, "Lista de Adjacencias");
+        output(listaAdjacencia, "Lista de Adjacencias");
+    }
+
+    public static Set<Aresta> getArestasSemVerticeOrigemDestinoAoContratio(Grafo grafo) {
+        Set<Aresta> arestas = new HashSet<>();
+
+        for (Aresta aresta : grafo.getArestas()) {
+            Aresta arestaContraria = new Aresta(aresta.getDestino(), aresta.getOrigem());
+            if(grafo.getArestas().contains(aresta) && grafo.getArestas().contains(arestaContraria))
+                arestas.add(aresta);
+        }
+
+        return arestas;
     }
 
     private static void listaArestas(Grafo grafo) {
-        String listaArestas = "Lista de Arestas\n\n";
+        String listaArestas = getConfiguracoes(grafo) + " \n\n";
 
         for (Aresta aresta : grafo.getArestas()) {
-            listaArestas += "[" + aresta.getOrigem() +      ", " + aresta.getDestino();
+            listaArestas += "[" + aresta.getOrigem() + ", " + aresta.getDestino();
             listaArestas += grafo.isValorado() ?  ", " + aresta.getValor() + "]\n" : "]\n";
         }
 
         output(listaArestas, "Lista de Arestas");
+    }
+
+    private static void matrizIncidencia(Grafo grafo) {
+        String matrizIncidencia = getConfiguracoes(grafo) + " \n\n\t";
+
+        List<Vertice> vertices = grafo.getVertices();
+        Set<Aresta> arestas = getArestasSemVerticeOrigemDestinoAoContratio(grafo);
+
+        for (Aresta aresta : arestas)
+            matrizIncidencia += aresta.getNome() + "\t";
+
+        for (Vertice vertice : vertices) {
+            matrizIncidencia += "\n" + vertice.getNome() + "\t";
+            for (Aresta aresta : arestas){
+                if(aresta.getOrigem().equals(vertice) || aresta.getDestino().equals(vertice))
+                    matrizIncidencia += 1;
+                else
+                    matrizIncidencia += 0;
+                matrizIncidencia += "\t";
+            }
+        }
+
+        output(matrizIncidencia, "Matriz de Incidência");
     }
 }
