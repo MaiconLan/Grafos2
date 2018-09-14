@@ -25,18 +25,22 @@ public class Main {
                     break;
 
                 case 3:
-                    listaArestas(grafo);
+                    adicionarArestaDireto(grafo);
                     break;
 
                 case 4:
-                    matrizAdjacencia(grafo);
+                    listaArestas(grafo);
                     break;
 
                 case 5:
-                    listaAdjacencia(grafo);
+                    matrizAdjacencia(grafo);
                     break;
 
                 case 6:
+                    listaAdjacencia(grafo);
+                    break;
+
+                case 7:
                     if(grafo.isOrientado())
                         matrizIncidenciaOrientada(grafo);
                     else
@@ -84,12 +88,13 @@ public class Main {
     public static String getMenu(){
         return "Selecione uma opção" +
                 "\n1 - Definir os Vértices" +
-                "\n2 - Adicionar Arestas" +
+                "\n2 - Adicionar Uma aresta" +
+                "\n3 - Adicionar várias Arestas" +
                 "\n---------------------------------" +
-                "\n3 - Lista de Arestas" +
-                "\n4 - Matriz de Adjacência" +
-                "\n5 - Lista de Adjacência" +
-                "\n6 - Matriz de Incidência" +
+                "\n4 - Lista de Arestas" +
+                "\n5 - Matriz de Adjacência" +
+                "\n6 - Lista de Adjacência" +
+                "\n7 - Matriz de Incidência" +
                 "\n---------------------------------" +
                 "\n0 - Sair";
     }
@@ -104,6 +109,38 @@ public class Main {
             Integer idVertice = i+1;
             grafo.getVertices().add(new Vertice(idVertice, nomesVertices[i]));
         }
+    }
+
+    public static void adicionarArestaDireto(Grafo grafo) {
+        String mensagem = "Insira as arestas pelo código ao lado esquerdo do vértice, utilizando vírgula entre origem e destino, \nalém de ponto e vírgula para separar os vértices, Conforme exemplo:\n";
+        String exemplo = "(ORIGEM,DESTINO;ORIGEM,DESTINO) \n\n1,2;1,3;1,4\n\n";
+        String verticesCadastrados = "";
+
+        for (Vertice vertice : grafo.getVertices()) {
+            verticesCadastrados += vertice.getIdVertice() + " - " + vertice.getNome() + "\n";
+        }
+        String input = input(mensagem + exemplo + verticesCadastrados);
+        String[] arrayVertices = input.replace(" ", "").split(";");
+
+       for (String vertice : arrayVertices) {
+            String[] verticesOrigemDestino = vertice.split(",");
+            Vertice origem = obterVertice(grafo, Integer.parseInt(verticesOrigemDestino[0]));
+            Vertice destino = obterVertice(grafo, Integer.parseInt(verticesOrigemDestino[1]));
+
+
+            int valorAresta = 0;
+
+            if(grafo.isValorado())
+                valorAresta = Integer.parseInt(input("Insira valor para a Aresta.").toUpperCase().replace(" ", ""));
+
+            Aresta aresta = new Aresta(origem, destino, valorAresta, "e" + (grafo.getArestas().size()+1));
+            grafo.getArestas().add(aresta);
+
+            if(!grafo.isOrientado()) {
+                Aresta arestaNaoOrientada = new Aresta(destino, origem, valorAresta, "e" + (grafo.getArestas().size()+1));
+                grafo.getArestas().add(arestaNaoOrientada);
+            }
+       }
     }
 
     public static void adicionarAresta(Grafo grafo) {
