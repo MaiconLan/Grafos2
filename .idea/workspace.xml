@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f865a1d9-c3de-4f31-812c-de48415a8c19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Aresta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Aresta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -25,12 +24,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="5577" />
+          <entry key="java" value="5678" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="5577" />
+          <entry key="JAVA" value="5678" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -53,8 +52,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="234" column="47" selection-start-line="234" selection-start-column="47" selection-end-line="234" selection-end-column="47" />
+            <state relative-caret-position="449">
+              <caret line="272" selection-start-line="272" selection-end-line="272" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#91#92#0" expanded="true" />
@@ -155,6 +154,7 @@
       <find>aresta</find>
       <find>adici</find>
       <find>adicion</find>
+      <find>(&quot;E&quot;+</find>
     </findStrings>
     <replaceStrings>
       <replace>\t</replace>
@@ -215,7 +215,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536903838946" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1536904614741" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -261,12 +261,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1536727918144</updated>
-      <workItem from="1536727922061" duration="28280000" />
+      <workItem from="1536727922061" duration="29030000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28280000" />
+    <option name="totallyTimeSpent" value="29030000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -276,8 +276,8 @@
       <window_info id="Designer" />
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
-      <window_info id="Favorites" sideWeight="0.50180507" side_tool="true" visible="true" weight="0.13166311" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.13166311" />
+      <window_info id="Favorites" sideWeight="0.50080776" side_tool="true" visible="true" weight="0.13166311" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49919224" visible="true" weight="0.13166311" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Messages" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
@@ -286,8 +286,8 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.0021668472" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3997833" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -314,13 +314,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>208</line>
+          <line>211</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>234</line>
+          <line>251</line>
           <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
@@ -507,8 +507,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="234" column="47" selection-start-line="234" selection-start-column="47" selection-end-line="234" selection-end-column="47" />
+        <state relative-caret-position="449">
+          <caret line="272" selection-start-line="272" selection-end-line="272" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#91#92#0" expanded="true" />

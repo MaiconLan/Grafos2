@@ -37,7 +37,10 @@ public class Main {
                     break;
 
                 case 6:
-                    matrizIncidencia(grafo);
+                    if(grafo.isOrientado())
+                        matrizIncidenciaOrientada(grafo);
+                    else
+                        matrizIncidenciaNaoOrientada(grafo);
                     break;
 
                 default:
@@ -124,11 +127,11 @@ public class Main {
         if(grafo.isValorado())
             valorAresta = Integer.parseInt(input("Insira valor para a Aresta.").toUpperCase().replace(" ", ""));
 
-        Aresta aresta = new Aresta(origem, destino, valorAresta, "E" + (grafo.getArestas().size()+1));
+        Aresta aresta = new Aresta(origem, destino, valorAresta, "e" + (grafo.getArestas().size()+1));
         grafo.getArestas().add(aresta);
 
         if(!grafo.isOrientado()) {
-            Aresta arestaNaoOrientada = new Aresta(destino, origem, valorAresta, "E" + (grafo.getArestas().size()+1));
+            Aresta arestaNaoOrientada = new Aresta(destino, origem, valorAresta, "e" + (grafo.getArestas().size()+1));
             grafo.getArestas().add(arestaNaoOrientada);
         }
     }
@@ -217,6 +220,20 @@ public class Main {
         return arestas;
     }
 
+    public static Set<Aresta> getArestasSemVerticeDuplicados(Grafo grafo) {
+        Set<Aresta> arestas = new HashSet<>();
+
+        for (Aresta aresta : grafo.getArestas()) {
+            Aresta arestaContraria = new Aresta(aresta.getDestino(), aresta.getOrigem());
+            if(!(arestas.contains(aresta) || arestas.contains(arestaContraria))) {
+                aresta.setNome("e"+(arestas.size()+1));
+                arestas.add(aresta);
+            }
+        }
+
+        return arestas;
+    }
+
     private static void listaArestas(Grafo grafo) {
         String listaArestas = getConfiguracoes(grafo) + " \n\n";
 
@@ -228,11 +245,11 @@ public class Main {
         output(listaArestas, "Lista de Arestas");
     }
 
-    private static void matrizIncidencia(Grafo grafo) {
+    private static void matrizIncidenciaNaoOrientada(Grafo grafo) {
         String matrizIncidencia = getConfiguracoes(grafo) + " \n\n\t";
 
         List<Vertice> vertices = grafo.getVertices();
-        Set<Aresta> arestas = getArestasSemVerticeOrigemDestinoAoContratio(grafo);
+        Set<Aresta> arestas = getArestasSemVerticeDuplicados(grafo);
 
         for (Aresta aresta : arestas)
             matrizIncidencia += aresta.getNome() + "\t";
@@ -242,6 +259,32 @@ public class Main {
             for (Aresta aresta : arestas){
                 if(aresta.getOrigem().equals(vertice) || aresta.getDestino().equals(vertice))
                     matrizIncidencia += 1;
+                else
+                    matrizIncidencia += 0;
+                matrizIncidencia += "\t";
+            }
+        }
+
+        output(matrizIncidencia, "Matriz de Incidência");
+    }
+
+
+    private static void matrizIncidenciaOrientada(Grafo grafo) {
+        String matrizIncidencia = getConfiguracoes(grafo) + " \n\n\t";
+
+        List<Vertice> vertices = grafo.getVertices();
+        Set<Aresta> arestas = getArestasSemVerticeDuplicados(grafo);
+
+        for (Aresta aresta : arestas)
+            matrizIncidencia += aresta.getNome() + "\t";
+
+        for (Vertice vertice : vertices) {
+            matrizIncidencia += "\n" + vertice.getNome() + "\t";
+            for (Aresta aresta : arestas){
+                if(aresta.getOrigem().equals(vertice))
+                    matrizIncidencia += 1;
+                else if(aresta.getDestino().equals(vertice))
+                    matrizIncidencia += -1;
                 else
                     matrizIncidencia += 0;
                 matrizIncidencia += "\t";
